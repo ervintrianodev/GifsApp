@@ -4,17 +4,16 @@ import { GifsService } from 'src/app/gifs/services/gifs.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit {
+  constructor(private gifsService: GifsService) {}
+  public buscar(query: string = ''): void {
+    this.gifsService.buscarGifs(query);
+  }
 
-  constructor(private gifsService:GifsService) {
-   }
-
-  get getHistorial(){
+  get getHistorial() {
     return this.gifsService.getHistorial;
   }
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
