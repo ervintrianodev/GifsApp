@@ -12,7 +12,11 @@ export class GifsService {
   //TODO:cambiar any por sutipo correspondiente
   public resultados: Gif[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    if (localStorage.getItem('historial')) {
+      this.historial = JSON.parse(localStorage.getItem('historial')!) || [];
+    }
+  }
 
   get getHistorial() {
     return [...this.historial];
@@ -26,6 +30,7 @@ export class GifsService {
     if (!this.historial.includes(query)) {
       this.historial.unshift(query);
       console.log(this.historial);
+      localStorage.setItem('historial', JSON.stringify(this.historial));
     }
 
     const url = `http://api.giphy.com/v1/gifs/search?api_key=${this.apikey}&q=${query}&limit=12`;
