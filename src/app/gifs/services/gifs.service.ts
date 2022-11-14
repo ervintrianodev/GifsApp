@@ -11,10 +11,14 @@ export class GifsService {
   private historial: string[] = [];
   //TODO:cambiar any por sutipo correspondiente
   public resultados: Gif[] = [];
+  private lastSearch: string = '';
 
   constructor(private http: HttpClient) {
     if (localStorage.getItem('historial')) {
       this.historial = JSON.parse(localStorage.getItem('historial')!) || [];
+    }
+    if (localStorage.getItem('lastSearch')) {
+      this.buscarGifs(localStorage.getItem('lastSearch') || '');
     }
   }
 
@@ -31,6 +35,7 @@ export class GifsService {
       this.historial.unshift(query);
       console.log(this.historial);
       localStorage.setItem('historial', JSON.stringify(this.historial));
+      localStorage.setItem('lastSearch', query);
     }
 
     const url = `http://api.giphy.com/v1/gifs/search?api_key=${this.apikey}&q=${query}&limit=12`;
